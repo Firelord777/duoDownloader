@@ -1,0 +1,20 @@
+{
+
+    "manifest_version": 2,
+    "name": "DuoDownloader",
+    "version": "0.0",
+  
+    "description": "Allows you to download all your learned vocabulary from Duolingo",
+    "homepage_url": "https://github.com/Firelord777/duoDownloader",
+  
+    "permissions": [
+        "activeTab"
+      ],
+    
+      "browser_action": {
+        "default_title": "DuoDownloader",
+        "default_popup": "popup/duoDownloader.html"
+      }
+  
+  }
+  
