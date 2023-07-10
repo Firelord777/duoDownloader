@@ -17,4 +17,12 @@ function compareTab(tabs){
 
 function onError(error) {
     console.log(`Error: ${error}`);
-  }
+}
+
+const userAction = async () => {
+  const response = await fetch('https://www.duolingo.com/vocabulary/overview', {"mode": "no-cors"});
+  const myJson = await response.json(); //extract JSON from the http response
+  pIsDuo.innerHTML = myJson["language_string"];
+}
+
+userAction();
