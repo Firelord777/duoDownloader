@@ -1,17 +1,28 @@
-console.log("I am here!");
-const duoDownloadLink = "https://www.duolingo.com/vocabulary/overview";
-const buttonDownloadRawJson = document.createElement("button");
-buttonDownloadRawJson.type = "button";
-buttonDownloadRawJson.innerHTML = "DOWNLOAD IT!!";
-buttonDownloadRawJson.style = "position:absolute;left:100px;top:150px;z-index:100"
+console.log("DuoDownloader: Content script has been loaded.");
 
-document.body.appendChild(buttonDownloadRawJson);
+// A way to recieve Messages from other script.
+// Futureproof by recieving a message, that tells the handler, which function to call.
+browser.runtime.onMessage.addListener(recieveMessage);
 
-buttonDownloadRawJson.addEventListener("click", downloadRawJson);
+function recieveMessage(message){
+  console.log("DuoDownloader: message recieved: " + message);
 
-function downloadRawJson(){
-    console.log("Test");
-    browser.downloads.download({ url: duoDownloadLink });
+  if(message == "getVocabList") return getVocabList();
+
+  //T Throw Error if some other message is send
 }
+
+async function getVocabList(){
+  const response = await fetch('https://www.duolingo.com/vocabulary/overview');
+    
+  const responseJson = await response.json();
+
+  return Promise.resolve(responseJson);
+}
+
+
+
+
+
 
 

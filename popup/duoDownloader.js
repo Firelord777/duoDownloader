@@ -1,41 +1,48 @@
-const duoDownloadLink = "https://www.duolingo.com/vocabulary/overview";
+let currentTab = "";
 
-//Check to test if the user currently is on Duolingo
+// Check to test if the user currently is on Duolingo
 const divIsDuo = document.getElementById("isDuo");
 const divIsNotDuo = document.getElementById("isNotDuo");
 
-// Get the currently active tab
+  // Get a list of all tabs
 browser.tabs.query({ active: true, currentWindow: true })
   .then(compareTab, onError);
 
-//Actually performs the check and enables the according div.
+  // Actually performs the check and enables the according div.
 function compareTab(tabs){
-    const currentTab = tabs[0];
+    currentTab = tabs[0]; // Get the current tabs
     const url = currentTab.url;
+
+    console.log(tabs[0].id + "comp");
     
     const isDuo = url.includes("www.duolingo.com/");
     
+    //Hides and shows the apropriate tabs.
     divIsDuo.hidden = !isDuo;
     divIsNotDuo.hidden = isDuo;
 }
 
-//Handles any error thrown by a .then() 
+  // Handles any error thrown by a .then() 
 function onError(error) {
-    console.log(`Error: ${error}`);
+    console.error(`${error}`);
 }
 
+// A button to fetch and download the raw Json vocabList from Duolingo.
+// Goes through a content script to circumvent CORS restrictions.
 const buttonDownloadRawJson = document.getElementById("downloadRawJson");
 
-buttonDownloadRawJson.addEventListener("click", downloadRawJson)
+buttonDownloadRawJson.addEventListener("click", downloadRawJson);
 
 function downloadRawJson(){
-  browser.downloads.download({ url: duoDownloadLink });
+  browser.tabs.sendMessage(currentTab.id, "getVocabList").then(rawJsonDownloaded, onError); //T Add proper Error Handling.
 }
 
-/**const userAction = async () => {
-  const response = await fetch('https://www.duolingo.com/vocabulary/overview', {"mode": "cors"});
-  //const myJson = await response.json(); //extract JSON from the http response
+async function rawJsonDownloaded(response){
+  
+  //T Do something with the response.
+  // Or put the whole response Handeling into a background script.
   console.log(response);
-  //pIsDuo.innerHTML = myJson["language_string"];
-}**/
+}
+
+
 
