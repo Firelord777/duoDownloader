@@ -7,9 +7,9 @@
     </head>
 
     <body>
-        <div id=isDuo hidden="true">
+        <div id="isDuo" hidden="true">
             <p>You are on Duolingo.</p>
-            <button type="button" id="downloadRawJson">Download Raw Json</button>
+            <button type="button" id="loadVocab">Load Vocabulary.</button>
         </div>
 
         <div id="isNotDuo" hidden="true">
@@ -17,6 +17,12 @@
             <p>Proceed with logging in and choosing the course of the language you want to download.</p>
         </div>
 
+        <div id="downloadComplete" hidden="true">
+            <p>The course you downloaded is: <b id="courseLanguage"></b></p>
+            <button type="button" id="downloadRawJson">Download Raw JSON Data</button>
+        </div>
+        
+        <script type="module" src="FileSaver.js"></script>
         <script type="text/javascript" src="duoDownloader.js"></script>
 
     </body>
