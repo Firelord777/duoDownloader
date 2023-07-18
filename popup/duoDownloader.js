@@ -32,9 +32,9 @@ function onError(error) {
 // Goes through a content script to circumvent CORS restrictions.
 const buttonLoadVocab = document.getElementById("loadVocab");
 
-buttonLoadVocab.addEventListener("click", loadVocab);
+buttonLoadVocab.addEventListener("click", onClick_loadVocab);
 
-function loadVocab(){
+function onClick_loadVocab(){
   browser.tabs.sendMessage(currentTab.id, "getVocabList").then(vocabDownloaded, onError); //T Add proper Error Handling.
 }
 
@@ -51,32 +51,27 @@ async function vocabDownloaded(response){
   courseLanguage.innerHTML = rawJson.language_string;
 }
 
+// Button to download the fetched JSON Data to the users download Directory directly
 const buttonDownloadRawJson = document.getElementById("downloadRawJson");
-buttonDownloadRawJson.addEventListener("click", downloadRawJson);
+buttonDownloadRawJson.addEventListener("click", onClick_downloadRawJson);
 
-
-function downloadRawJson() {
-  downloadFile(JSON.stringify(rawJson))
+function onClick_downloadRawJson() {
+  downloadFile(JSON.stringify(rawJson), "duo.json");
 }
-
-function downloadFile(text){
-  // Create a new Blob object from the data
+  //Downloads a string into a file in the users Download Directory
+  //Basicly entirely written with the help of ChatGPT
+function downloadFile(text, filename){
   const blob = new Blob([text], { type: 'application/json' });
-
-  // Generate a temporary URL for the blob
   const url = URL.createObjectURL(blob);
 
 
-  // Create an anchor element to trigger the file download
+  // Create an anchor element and trigger the file download
   const downloadLink = document.createElement('a');
   downloadLink.href = url;
-  downloadLink.download = 'data.json'; // Specify the filename and extension for the saved file
+  downloadLink.download = filename; // Specify the filename and extension for the saved file
   downloadLink.click();
 
-  // Clean up the temporary URL after the download is initiated
+  // Delete everything that is no longer needed after the completed download
   URL.revokeObjectURL(url);
-
   downloadLink.remove();
 }
-
-

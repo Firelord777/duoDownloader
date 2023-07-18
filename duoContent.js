@@ -2,9 +2,9 @@ console.log("DuoDownloader: Content script has been loaded.");
 
 // A way to recieve Messages from other script.
 // Futureproof by recieving a message, that tells the handler, which function to call.
-browser.runtime.onMessage.addListener(recieveMessage);
+browser.runtime.onMessage.addListener(onMessage_recieveMessage);
 
-function recieveMessage(message){
+function onMessage_recieveMessage(message){
   console.log("DuoDownloader: message recieved: " + message);
 
   if(message == "getVocabList") return getVocabList();
