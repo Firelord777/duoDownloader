@@ -1,6 +1,5 @@
-var global = window;
-
 let currentTab = "";
+let courseLanguage = "";
 let rawJson = "";
 
 // Check to test if the user currently is on Duolingo
@@ -39,20 +38,20 @@ function onClick_loadVocab(){
 }
 
 const divDownloadComplete = document.getElementById("downloadComplete");
-
 async function vocabDownloaded(response){
   rawJson = response;
+  courseLanguage = rawJson.language_string;
+
+  //Displays the language of the downloaded course. 
+  const bCourseLanguage = document.getElementById("courseLanguage");
+  bCourseLanguage.innerHTML = courseLanguage;
 
   divIsDuo.hidden = true;
   divDownloadComplete.hidden = false;
-
-  const courseLanguage = document.getElementById("courseLanguage");
-
-  courseLanguage.innerHTML = rawJson.language_string;
 }
 
 // Button to download the fetched JSON Data to the users download Directory directly
-const buttonDownloadRawJson = document.getElementById("downloadRawJson");
+const buttonDownloadRawJson = document.getElementById("buttonDownloadRawJson");
 buttonDownloadRawJson.addEventListener("click", onClick_downloadRawJson);
 
 function onClick_downloadRawJson() {
@@ -75,3 +74,43 @@ function downloadFile(text, filename){
   URL.revokeObjectURL(url);
   downloadLink.remove();
 }
+
+const buttonDownloadFile = document.getElementById("buttonDownloadFile");
+buttonDownloadFile.addEventListener("click", onClick_buttonDownloadFile);
+function onClick_buttonDownloadFile(){
+  switch(getSelectedFileType()){
+    case "rawData" : downloadFile(JSON.stringify(rawJson), generateFileName() + ".json"); ;
+  }
+}
+
+//reads the value of the filetype selector
+const selectorFileType = document.getElementById("selectorFileType");
+function getSelectedFileType(){
+  const selectedIndex = selectorFileType.selectedIndex;
+  return selectorFileType[selectedIndex].value;
+}
+
+//Reads out which checkBoxes have been checked
+function getSelectedData(){
+  const dataCheckBoxes = document.getElementsByClassName("selectorDataCheckBox");
+  var selectedBoxes = {};
+  for(dCheckBox of dataCheckBoxes){
+    selectedBoxes[dCheckBox.name] = dCheckBox.checked;
+  }
+  return selectedBoxes;
+}
+
+//Generate the filename out of the current date and the name of the course
+function generateFileName(){ 
+  const date = new Date().toJSON().slice(0,10);
+  return courseLanguage + "-" + date;
+}
+
+selectorFileType.addEventListener("change", onChange_selectorFileType);
+//Hides the data, when rawData is chosen, because rawData does not need the data selector.
+function onChange_selectorFileType(){
+  const selectorData = document.getElementById("selectorData");
+  selectorData.hidden =getSelectedFileType() == "rawData";
+}
+
+

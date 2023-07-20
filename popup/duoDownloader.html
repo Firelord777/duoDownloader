@@ -20,10 +20,31 @@
         
         <div id="downloadComplete" hidden="true">
             <p>The course you downloaded is: <b id="courseLanguage"></b></p>
-            <button type="button" id="downloadRawJson">Download Raw JSON Data</button>
+            <button type="button" id="buttonDownloadRawJson">Download Raw JSON Data</button>
+
+            <div id="dataSelector">
+                <label for="selectorFileType">Select File Type:</label>
+                <select id="selectorFileType" name="fileType">
+                    <option value="txt" selected>.txt</option>
+                    <option value="json">.json</option>
+                    <option value="csv">.csv</option>
+                    <option value="rawData">rawData</option>
+                </select>
+                <br/>
+                <div id="selectorData">
+                    <label for="word">Word</label>
+                    <input type="checkbox" id="wordBox" class="selectorDataCheckBox" name="word" checked><br>
+        
+                    <label for="lastLearned">Last Learned</label>
+                    <input type="checkbox" id="lastLearnedBox" class="selectorDataCheckBox" name="lastLearned"><br>
+
+                    <label for="category">Category</label>
+                    <input type="checkbox" id="categoryBox" class="selectorDataCheckBox" name="category"><br>
+                </div>
+                <button type="button" id="buttonDownloadFile">Download File</button>
+            </div>
         </div>
         
-        <script type="module" src="FileSaver.js"></script>
         <script type="text/javascript" src="duoDownloader.js"></script>
 
     </body>
