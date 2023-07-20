@@ -20,8 +20,7 @@
         
         <div id="downloadComplete" hidden="true">
             <p>The course you downloaded is: <b id="courseLanguage"></b></p>
-            <button type="button" id="buttonDownloadRawJson">Download Raw JSON Data</button>
-
+            <br\>
             <div id="dataSelector">
                 <label for="selectorFileType">Select File Type:</label>
                 <select id="selectorFileType" name="fileType">
@@ -33,13 +32,13 @@
                 <br/>
                 <div id="selectorData">
                     <label for="word">Word</label>
-                    <input type="checkbox" id="wordBox" class="selectorDataCheckBox" name="word" checked><br>
-        
-                    <label for="lastLearned">Last Learned</label>
-                    <input type="checkbox" id="lastLearnedBox" class="selectorDataCheckBox" name="lastLearned"><br>
-
+                    <input type="checkbox" id="wordBox" class="selectorDataCheckBox" name="word" checked disabled><br>
+   
                     <label for="category">Category</label>
                     <input type="checkbox" id="categoryBox" class="selectorDataCheckBox" name="category"><br>
+                    
+                    <label for="lastLearned">Last Learned</label>
+                    <input type="checkbox" id="lastLearnedBox" class="selectorDataCheckBox" name="lastLearned"><br>
                 </div>
                 <button type="button" id="buttonDownloadFile">Download File</button>
             </div>
