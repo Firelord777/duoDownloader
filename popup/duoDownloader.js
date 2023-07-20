@@ -50,13 +50,6 @@ async function vocabDownloaded(response){
   divDownloadComplete.hidden = false;
 }
 
-// Button to download the fetched JSON Data to the users download Directory directly
-const buttonDownloadRawJson = document.getElementById("buttonDownloadRawJson");
-buttonDownloadRawJson.addEventListener("click", onClick_downloadRawJson);
-
-function onClick_downloadRawJson() {
-  downloadFile(JSON.stringify(rawJson), "duo.json");
-}
   //Downloads a string into a file in the users Download Directory
   //Basicly entirely written with the help of ChatGPT
 function downloadFile(text, filename){
@@ -79,7 +72,10 @@ const buttonDownloadFile = document.getElementById("buttonDownloadFile");
 buttonDownloadFile.addEventListener("click", onClick_buttonDownloadFile);
 function onClick_buttonDownloadFile(){
   switch(getSelectedFileType()){
-    case "rawData" : downloadFile(JSON.stringify(rawJson), generateFileName() + ".json"); ;
+    case "rawData" : downloadFile(JSON.stringify(rawJson), generateFileName() + ".json");
+    case "txt" : downloadFile(generateTableFile("\t", "\n"), generateFileName() + ".txt");
+    case "csv" : downloadFile(generateTableFile(",", "\n"), generateFileName() + ".csv");
+    case "json" : downloadFile(JSON.stringify(generateJsonFile()), generateFileName() + ".json");
   }
 }
 
@@ -100,10 +96,47 @@ function getSelectedData(){
   return selectedBoxes;
 }
 
-//Generate the filename out of the current date and the name of the course
+// Generate the filename out of the current date and the name of the course
 function generateFileName(){ 
   const date = new Date().toJSON().slice(0,10);
   return courseLanguage + "-" + date;
+}
+
+// Generates the txt and csv files. As they are both similar in structure.
+// Only put in one Charakter as rowSeparator
+//T Fix the problem mentioned in the above Comment
+function generateTableFile(collumnSeparator, rowSeparator){
+  let selectedData = getSelectedData();
+  const vocabList = rawJson.vocab_overview;
+  let file = "";
+
+  for(vocabItem of vocabList){
+    if(selectedData.word) file += vocabItem.normalized_string += collumnSeparator;
+    if(selectedData.category) file += vocabItem.skill += collumnSeparator;
+    if(selectedData.lastLearned) file += vocabItem.last_practiced += collumnSeparator;
+
+    file = file.slice(0, -1); //Makes sure that the line does not end in a collumnSeparator
+    file += rowSeparator;
+  }
+  return file;
+}
+
+function generateJsonFile(){
+  let selectedData = getSelectedData();
+  const vocabList = rawJson.vocab_overview;
+  let file = []; 
+
+  let word;
+  for(vocabItem of vocabList){
+    word = {};
+
+    if(selectedData.word) word["word"] = vocabItem.normalized_string;
+    if(selectedData.category) word["category"] = vocabItem.skill;
+    if(selectedData.lastLearned) word["lastLearned"] = vocabItem.last_practiced;
+
+    file.push(word);
+  }
+  return file;
 }
 
 selectorFileType.addEventListener("change", onChange_selectorFileType);
@@ -112,5 +145,3 @@ function onChange_selectorFileType(){
   const selectorData = document.getElementById("selectorData");
   selectorData.hidden =getSelectedFileType() == "rawData";
 }
-
-
