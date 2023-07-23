@@ -8,21 +8,20 @@
     "homepage_url": "https://github.com/Firelord777/duoDownloader",
   
     "permissions": [
-        "activeTab",
-        "downloads"
-      ],
+      "activeTab",
+      "storage"
+    ],
     
-      "browser_action": {
-        "default_title": "DuoDownloader",
-        "default_popup": "popup/duoDownloader.html"
-      },
+    "browser_action": {
+      "default_title": "DuoDownloader",
+      "default_popup": "popup/duoDownloader.html"
+    },
 
-      "content_scripts": [
-        {
-          "matches": ["*://*.duolingo.com/*"],
-          "js": ["duoContent.js"]
-        }
-      ]
-  
+    "content_scripts": [
+      {
+        "matches": ["*://*.duolingo.com/*"],
+        "js": ["duoContent.js"]
+      }
+    ] 
   }
   

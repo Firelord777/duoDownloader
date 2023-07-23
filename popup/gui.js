@@ -2,13 +2,13 @@
 const divIsDuo = document.getElementById("isDuo");
 const divIsNotDuo = document.getElementById("isNotDuo");
 function toggleIsDuo(){
- const url = currentTab.url;
+  const url = currentTab.url;
  
- const isDuo = url.includes("www.duolingo.com/");
+  const isDuo = url.includes("www.duolingo.com/");
   
- //Hides and shows the apropriate tabs.
- divIsDuo.hidden = !isDuo;
- divIsNotDuo.hidden = isDuo;
+  //Hides and shows the apropriate tabs.
+  divIsDuo.hidden = !isDuo;
+  divIsNotDuo.hidden = isDuo;
 }
 
 function showDownloadCompleted(){

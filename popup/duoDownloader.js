@@ -25,6 +25,7 @@ function vocabDownloaded(response){
   rawJson = response;
   courseLanguage = rawJson.language_string;
 
+  browser.storage.local.set({"rawJson" : rawJson});
   showDownloadCompleted();
 }
 
