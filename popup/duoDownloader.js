@@ -2,24 +2,10 @@ let currentTab = "";
 let courseLanguage = "";
 let rawJson = "";
 
-// Check to test if the user currently is on Duolingo
-const divIsDuo = document.getElementById("isDuo");
-const divIsNotDuo = document.getElementById("isNotDuo");
 
-  // Get a list of all tabs
-browser.tabs.query({ active: true, currentWindow: true })
-  .then(compareTab, onError);
-
-  // Actually performs the check and enables the according div.
-function compareTab(tabs){
-    currentTab = tabs[0]; // Get the current tabs
-    const url = currentTab.url;
-    
-    const isDuo = url.includes("www.duolingo.com/");
-    
-    //Hides and shows the apropriate tabs.
-    divIsDuo.hidden = !isDuo;
-    divIsNotDuo.hidden = isDuo;
+async function setCurrentTab(){
+  const tabs = await browser.tabs.query({ active: true, currentWindow: true }); // Get a list of all tabs
+  currentTab = tabs[0];
 }
 
   // Handles any error thrown by a .then() 
@@ -72,28 +58,11 @@ const buttonDownloadFile = document.getElementById("buttonDownloadFile");
 buttonDownloadFile.addEventListener("click", onClick_buttonDownloadFile);
 function onClick_buttonDownloadFile(){
   switch(getSelectedFileType()){
-    case "rawData" : downloadFile(JSON.stringify(rawJson), generateFileName() + ".json");
-    case "txt" : downloadFile(generateTableFile("\t", "\n"), generateFileName() + ".txt");
-    case "csv" : downloadFile(generateTableFile(",", "\n"), generateFileName() + ".csv");
-    case "json" : downloadFile(JSON.stringify(generateJsonFile()), generateFileName() + ".json");
+    case "rawData" : downloadFile(JSON.stringify(rawJson), generateFileName() + ".json"); break;
+    case "txt" : downloadFile(generateTableFile("\t", "\n"), generateFileName() + ".txt"); break;
+    case "csv" : downloadFile(generateTableFile(",", "\n"), generateFileName() + ".csv"); break;
+    case "json" : downloadFile(JSON.stringify(generateJsonFile()), generateFileName() + ".json"); break;
   }
-}
-
-//reads the value of the filetype selector
-const selectorFileType = document.getElementById("selectorFileType");
-function getSelectedFileType(){
-  const selectedIndex = selectorFileType.selectedIndex;
-  return selectorFileType[selectedIndex].value;
-}
-
-//Reads out which checkBoxes have been checked
-function getSelectedData(){
-  const dataCheckBoxes = document.getElementsByClassName("selectorDataCheckBox");
-  var selectedBoxes = {};
-  for(dCheckBox of dataCheckBoxes){
-    selectedBoxes[dCheckBox.name] = dCheckBox.checked;
-  }
-  return selectedBoxes;
 }
 
 // Generate the filename out of the current date and the name of the course
@@ -139,9 +108,5 @@ function generateJsonFile(){
   return file;
 }
 
-selectorFileType.addEventListener("change", onChange_selectorFileType);
-//Hides the data, when rawData is chosen, because rawData does not need the data selector.
-function onChange_selectorFileType(){
-  const selectorData = document.getElementById("selectorData");
-  selectorData.hidden =getSelectedFileType() == "rawData";
-}
+await setCurrentTab();
+toggleIsDuo();
