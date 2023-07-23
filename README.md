@@ -3,9 +3,6 @@ A Firefox add-on to download a list of all the vocabulary learned on a certain l
 
 # TO-DO
 - Develop options to parse the raw data to the following formats:
-  - txt file
-  - JSON file
-  - csv file
   - Anki Cards 
   - Possibility to load all words in the course from LocalStorage of Duolingo
 - Create a nice pop-up interface for the user
