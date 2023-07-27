@@ -45,6 +45,14 @@ function rawJsonLoaded(){
   showDownloadCompleted();
 }
 
+// Downloads a given file to the users download directory
+function downloadFile(text, filename){
+  const blob = new Blob([text], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  browser.downloads.download({url: url,  filename: filename});
+}
+
 //File Download Button
 const buttonDownloadFile = document.getElementById("buttonDownloadFile");
 buttonDownloadFile.addEventListener("click", onClick_buttonDownloadFile);
@@ -57,5 +65,6 @@ function onClick_buttonDownloadFile(){
   }
 }
 
+//Called every time the popUp is opened.
 browser.tabs.query({ active: true, currentWindow: true }).then(setCurrentTab, onError); //Used to toggle the isDuo Window
 browser.storage.local.get(["rawJson", "rawJsonDate"]).then(rawJsonFromStorage, onError); //Used to load rawJson from storage.local and to possibly skip isDuo Window

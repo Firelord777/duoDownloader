@@ -26,9 +26,11 @@ function showDownloadCompleted(){
   // Displays Courselanguage
   const bCourseLanguage = document.getElementById("courseLanguage");
   bCourseLanguage.innerHTML = courseLanguage;
+
   //Displays Coursewordcount
   const bWordCount = document.getElementById("wordCount");
   bWordCount.innerHTML = rawJson.vocab_overview.length;
+
   // Toggles the wordlist reload button
   const buttonReloadRawJson = document.getElementById("buttonReloadRawJson");
   const pNotOnDuo = document.getElementById("pNotOnDuo");
@@ -60,21 +62,4 @@ selectorFileType.addEventListener("change", onChange_selectorFileType);
 function onChange_selectorFileType(){
   const selectorData = document.getElementById("selectorData");
   selectorData.hidden =getSelectedFileType() == "rawData";
-}
-
-//Downloads a string into a file in the users Download Directory
-function downloadFile(text, filename){
-  const blob = new Blob([text], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-
-
-  // Create an anchor element and trigger the file download
-  const downloadLink = document.createElement('a');
-  downloadLink.href = url;
-  downloadLink.download = filename; // Specify the filename and extension for the saved file
-  downloadLink.click();
-
-  // Delete everything that is no longer needed after the completed download
-  URL.revokeObjectURL(url);
-  downloadLink.remove();
 }
