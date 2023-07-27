@@ -1,43 +1,50 @@
-// Check to test if the user currently is on Duolingo
-const divIsDuo = document.getElementById("isDuo");
-const divIsNotDuo = document.getElementById("isNotDuo");
+// Shows one of the windows, and make sure, that ONLY one is shown.
+function showWindow(windowKey){
+  const windows = {
+    "isDuo" : document.getElementById("isDuo"),
+    "isNotDuo" : document.getElementById("isNotDuo"),
+    "downloadComplete" : document.getElementById("downloadComplete")
+  }
+
+  for (wKey in windows) windows[wKey].hidden = true; // Hides all windows.
+  windows[windowKey].hidden = false; // Shows the one requested to be shown.
+}
 
 function currentTabIsDuo(){
   const url = currentTab.url;
   return url.includes("www.duolingo.com/");
 }
 
+// Selects, wether isDuo or isNotDuo is shown.
 function toggleIsDuo(){
-  //Hides and shows the apropriate tabs.
-  divIsDuo.hidden = !currentTabIsDuo();
-  divIsNotDuo.hidden = currentTabIsDuo();
+  if(currentTabIsDuo()) showWindow("isDuo");
+  else showWindow("isNotDuo");
 }
 
+// Constructs the DownloadCompleted div displays it.
 function showDownloadCompleted(){
-  const divDownloadComplete = document.getElementById("downloadComplete");
-
+  // Displays Courselanguage
   const bCourseLanguage = document.getElementById("courseLanguage");
   bCourseLanguage.innerHTML = courseLanguage;
-
+  //Displays Coursewordcount
   const bWordCount = document.getElementById("wordCount");
   bWordCount.innerHTML = rawJson.vocab_overview.length;
-
+  // Toggles the wordlist reload button
   const buttonReloadRawJson = document.getElementById("buttonReloadRawJson");
   const pNotOnDuo = document.getElementById("pNotOnDuo");
   buttonReloadRawJson.hidden = !currentTabIsDuo();
   pNotOnDuo.hidden = currentTabIsDuo();
 
-  divIsDuo.hidden = true;
-  divDownloadComplete.hidden = false;
+  showWindow("downloadComplete");
 }
 
-//reads the value of the filetype selector
+// Reads the value of the filetype selector
 function getSelectedFileType(){
   const selectedIndex = selectorFileType.selectedIndex;
   return selectorFileType[selectedIndex].value;
 }
 
-//Reads out which checkBoxes have been checked
+// Reads out which checkBoxes have been checked
 function getSelectedData(){
   const dataCheckBoxes = document.getElementsByClassName("selectorDataCheckBox");
   var selectedBoxes = {};
@@ -47,7 +54,7 @@ function getSelectedData(){
   return selectedBoxes;
 }
 
-//Hides the data, when rawData is chosen, because rawData does not need the data selector.
+// Hides the data selector, when rawData is chosen, because rawData does not need the data selector.
 const selectorFileType = document.getElementById("selectorFileType");
 selectorFileType.addEventListener("change", onChange_selectorFileType);
 function onChange_selectorFileType(){
