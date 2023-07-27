@@ -23,17 +23,21 @@ function onClick_loadVocab(){
 
 function vocabDownloaded(response){
   rawJson = response;
-  browser.storage.local.set({"rawJson" : rawJson});
+  browser.storage.local.set({"rawJson" : rawJson, "rawJsonDate": Date.now()});
   rawJsonLoaded();
 }
 
-function rawJsonIsStored(data){
+function rawJsonFromStorage(data){
+  //Checks, if rawJson in Storage is older than a day, and ignores it, if thats the case.
+  if(data.rawJsonDate ===undefined) return;
+  if(Date.now() - data.rawJsonDate >= (1000*60*60*24)) return;
+
   if(data.rawJson === undefined) return; //Check if rawJSON is even in Storage
   rawJson = data.rawJson;
   rawJsonLoaded();
 }
 
-//Called by all methods that load the rawJSON data from somewhere, after loading
+//Called by all methods that load the rawJSON data from somewhere, after
 function rawJsonLoaded(){
   courseLanguage = rawJson.language_string;
   showDownloadCompleted();
@@ -51,6 +55,5 @@ function onClick_buttonDownloadFile(){
   }
 }
 
-browser.tabs.query({ active: true, currentWindow: true }).then(setCurrentTab, onError);
-
-browser.storage.local.get("rawJson").then(rawJsonIsStored, onError);
+browser.tabs.query({ active: true, currentWindow: true }).then(setCurrentTab, onError); //Used to toggle the isDuo Window
+browser.storage.local.get(["rawJson", "rawJsonDate"]).then(rawJsonFromStorage, onError); //Used to load rawJson from storage.local and to possibly skip isDuo Window

@@ -16,6 +16,9 @@ function showDownloadCompleted(){
   //Displays the language of the downloaded course. 
   const bCourseLanguage = document.getElementById("courseLanguage");
   bCourseLanguage.innerHTML = courseLanguage;
+
+  const bWordCount = document.getElementById("wordCount");
+  bWordCount.innerHTML = rawJson.vocab_overview.length;
   
   divIsDuo.hidden = true;
   divDownloadComplete.hidden = false;

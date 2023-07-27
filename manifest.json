@@ -2,7 +2,7 @@
 
     "manifest_version": 2,
     "name": "DuoDownloader",
-    "version": "0.3.1",
+    "version": "0.3.2",
   
     "description": "Allows you to download all your learned vocabulary from Duolingo",
     "homepage_url": "https://github.com/Firelord777/duoDownloader",
