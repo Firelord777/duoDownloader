@@ -1,25 +1,32 @@
 // Check to test if the user currently is on Duolingo
 const divIsDuo = document.getElementById("isDuo");
 const divIsNotDuo = document.getElementById("isNotDuo");
-function toggleIsDuo(){
+
+function currentTabIsDuo(){
   const url = currentTab.url;
- 
-  const isDuo = url.includes("www.duolingo.com/");
-  
+  return url.includes("www.duolingo.com/");
+}
+
+function toggleIsDuo(){
   //Hides and shows the apropriate tabs.
-  divIsDuo.hidden = !isDuo;
-  divIsNotDuo.hidden = isDuo;
+  divIsDuo.hidden = !currentTabIsDuo();
+  divIsNotDuo.hidden = currentTabIsDuo();
 }
 
 function showDownloadCompleted(){
   const divDownloadComplete = document.getElementById("downloadComplete");
-  //Displays the language of the downloaded course. 
+
   const bCourseLanguage = document.getElementById("courseLanguage");
   bCourseLanguage.innerHTML = courseLanguage;
 
   const bWordCount = document.getElementById("wordCount");
   bWordCount.innerHTML = rawJson.vocab_overview.length;
-  
+
+  const buttonReloadRawJson = document.getElementById("buttonReloadRawJson");
+  const pNotOnDuo = document.getElementById("pNotOnDuo");
+  buttonReloadRawJson.hidden = !currentTabIsDuo();
+  pNotOnDuo.hidden = currentTabIsDuo();
+
   divIsDuo.hidden = true;
   divDownloadComplete.hidden = false;
 }

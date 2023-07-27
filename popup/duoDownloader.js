@@ -13,11 +13,13 @@ function onError(error) {
 }
 
 // A button to fetch and download the raw Json vocabList from Duolingo.
-// Goes through a content script to circumvent CORS restrictions.
 const buttonLoadVocab = document.getElementById("loadVocab");
-
 buttonLoadVocab.addEventListener("click", onClick_loadVocab);
+// Button to reload the wordlist goes through same listener.
+const buttonReloadRawJson = document.getElementById("buttonReloadRawJson");
+buttonReloadRawJson.addEventListener("click", onClick_loadVocab);
 function onClick_loadVocab(){
+  // Goes through a content script to circumvent CORS restrictions.
   browser.tabs.sendMessage(currentTab.id, "getVocabList").then(vocabDownloaded, onError); //T Add proper Error Handling.
 }
 
@@ -29,7 +31,7 @@ function vocabDownloaded(response){
 
 function rawJsonFromStorage(data){
   //Checks, if rawJson in Storage is older than a day, and ignores it, if thats the case.
-  if(data.rawJsonDate ===undefined) return;
+  if(data.rawJsonDate === undefined) return;
   if(Date.now() - data.rawJsonDate >= (1000*60*60*24)) return;
 
   if(data.rawJson === undefined) return; //Check if rawJSON is even in Storage
