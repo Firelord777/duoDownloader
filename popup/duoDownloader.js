@@ -23,9 +23,18 @@ function onClick_loadVocab(){
 
 function vocabDownloaded(response){
   rawJson = response;
-  courseLanguage = rawJson.language_string;
-
   browser.storage.local.set({"rawJson" : rawJson});
+  rawJsonLoaded();
+}
+
+function rawJsonIsStored(data){
+  if(data == null) return;
+  rawJson = JSON.parse(data.rawJson);
+  rawJsonLoaded();
+}
+
+function rawJsonLoaded(){
+  courseLanguage = rawJson.language_string;
   showDownloadCompleted();
 }
 
@@ -42,3 +51,5 @@ function onClick_buttonDownloadFile(){
 }
 
 browser.tabs.query({ active: true, currentWindow: true }).then(setCurrentTab, onError);
+
+browser.storage.local.get("rawJson").then(rawJsonIsStored, onError);
