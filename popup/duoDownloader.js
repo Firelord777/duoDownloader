@@ -28,11 +28,12 @@ function vocabDownloaded(response){
 }
 
 function rawJsonIsStored(data){
-  if(data == null) return;
-  rawJson = JSON.parse(data.rawJson);
+  if(data.rawJson === undefined) return; //Check if rawJSON is even in Storage
+  rawJson = data.rawJson;
   rawJsonLoaded();
 }
 
+//Called by all methods that load the rawJSON data from somewhere, after loading
 function rawJsonLoaded(){
   courseLanguage = rawJson.language_string;
   showDownloadCompleted();
