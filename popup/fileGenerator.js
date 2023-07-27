@@ -10,6 +10,7 @@ function generateFileName(){
 function generateTableFile(collumnSeparator, rowSeparator){
   let selectedData = getSelectedData();
   const vocabList = rawJson.vocab_overview;
+  
   let file = "";
 
   for(vocabItem of vocabList){

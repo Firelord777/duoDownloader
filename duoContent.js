@@ -5,7 +5,7 @@ console.log("DuoDownloader: Content script has been loaded.");
 browser.runtime.onMessage.addListener(onMessage_recieveMessage);
 
 function onMessage_recieveMessage(message){
-  console.log("DuoDownloader: message recieved: " + message);
+  console.log("[DuoDownloader]: message recieved: " + message);
 
   if(message == "getVocabList") return getVocabList();
 
