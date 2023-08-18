@@ -18,9 +18,13 @@ buttonLoadVocab.addEventListener("click", onClick_loadVocab);
 // Button to reload the wordlist goes through same listener.
 const buttonReloadRawJson = document.getElementById("buttonReloadRawJson");
 buttonReloadRawJson.addEventListener("click", onClick_loadVocab);
-function onClick_loadVocab(){
+
+async function onClick_loadVocab(event){
+  buttonWait(event.target);
   // Goes through a content script to circumvent CORS restrictions.
-  browser.tabs.sendMessage(currentTab.id, "getVocabList").then(vocabDownloaded, onError); //T Add proper Error Handling.
+  const tabs = await browser.tabs.sendMessage(currentTab.id, "getVocabList"); //T Add proper Error Handling.
+  buttonWaitFinished(event.target);
+  vocabDownloaded(tabs);
 }
 
 function vocabDownloaded(response){
@@ -58,10 +62,10 @@ const buttonDownloadFile = document.getElementById("buttonDownloadFile");
 buttonDownloadFile.addEventListener("click", onClick_buttonDownloadFile);
 function onClick_buttonDownloadFile(){
   switch(getSelectedFileType()){
-    case "rawData" : downloadFile(JSON.stringify(rawJson), generateFileName() + ".json"); break;
+    case "rawData" : downloadFile(JSON.stringify(rawJson, null, 4), generateFileName() + ".json"); break;
     case "txt" : downloadFile(generateTableFile("\t", "\n"), generateFileName() + ".txt"); break;
     case "csv" : downloadFile(generateTableFile(",", "\n"), generateFileName() + ".csv"); break;
-    case "json" : downloadFile(JSON.stringify(generateJsonFile()), generateFileName() + ".json"); break;
+    case "json" : downloadFile(JSON.stringify(generateJsonFile(), null, 4), generateFileName() + ".json"); break;
   }
 }
 

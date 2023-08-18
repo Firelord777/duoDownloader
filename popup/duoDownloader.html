@@ -4,23 +4,25 @@
     <head>
         <title>Duolingo Downloader</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="stylesheet.css">
     </head>
 
     <body>
-        <div id="isDuo" hidden="true">
-            <p>You are on Duolingo.</p>
-            <button type="button" id="loadVocab">Load Vocabulary.</button>
+        <div id="isDuo" class="preDownload" hidden="true">
+            <button type="button" id="loadVocab" class="bLoadVocab">Load Course.</button>
         </div>
 
-        <div id="isNotDuo" hidden="true">
-            <p>You are currently either not on duolingo.com or you are there and just not logged in.</p>
-            <p>Proceed with logging in and choosing the course of the language you want to download.</p>
+        <div id="isNotDuo" class="preDownload" hidden="true">
+            <button type="button" class="bLoadVocab" title="Go to duolingo.com to enable the button!" disabled>Load Course.</button>
         </div>
 
         
         <div id="downloadComplete" hidden="true">
             <p>The course you downloaded is: <b id="courseLanguage"></b></p>
             <p>It contains: <b id="wordCount"></b> words.</p>
+            <br\>
+            <button type="button" id="buttonReloadRawJson" hidden>Reload Course</button>
+            <button type="button" id="buttonRRJDisabled" title="Go to duolingo.com to enable the button!" disabled hidden>Reload Course</button>
             <br\>
             <div id="dataSelector">
                 <label for="selectorFileType">Select File Type:</label>
@@ -31,10 +33,6 @@
                     <option value="rawData">rawData</option>
                 </select>
                 <br/>
-
-                <button type="button" id="buttonReloadRawJson" hidden="true">Reload Words</button>
-                <p id="pNotOnDuo" hidden="true">To reload the downloaded words open the Duolingo Website and log in.</p>
-
                 <div id="selectorData">
                     <label for="word">Word</label>
                     <input type="checkbox" id="wordBox" class="selectorDataCheckBox" name="word" checked disabled><br>

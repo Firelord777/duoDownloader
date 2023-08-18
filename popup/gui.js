@@ -21,22 +21,31 @@ function toggleIsDuo(){
   else showWindow("isNotDuo");
 }
 
-// Constructs the DownloadCompleted div displays it.
+//Two functions to disable a button and enable the wait cursor, while a button action is performed.
+function buttonWait(button){ //Disables
+  button.disabled = true;
+  button.style.cursor = "wait";
+}
+function buttonWaitFinished(button){ //Enables again
+  button.disabled = false;
+  button.style.cursor = "default";
+}
+
+// Constructs the DownloadCompleted div then displays it.
 function showDownloadCompleted(){
   // Displays Courselanguage
   const bCourseLanguage = document.getElementById("courseLanguage");
-  bCourseLanguage.innerHTML = courseLanguage;
+  bCourseLanguage.textContent = courseLanguage;
 
   //Displays Coursewordcount
   const bWordCount = document.getElementById("wordCount");
-  bWordCount.innerHTML = rawJson.vocab_overview.length;
+  bWordCount.textContent = rawJson.vocab_overview.length;
 
   // Toggles the wordlist reload button
   const buttonReloadRawJson = document.getElementById("buttonReloadRawJson");
-  const pNotOnDuo = document.getElementById("pNotOnDuo");
+  const buttonRRJDisabled = document.getElementById("buttonRRJDisabled");
   buttonReloadRawJson.hidden = !currentTabIsDuo();
-  pNotOnDuo.hidden = currentTabIsDuo();
-
+  buttonRRJDisabled.hidden = currentTabIsDuo();
   showWindow("downloadComplete");
 }
 
