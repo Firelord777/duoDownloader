@@ -10,7 +10,8 @@
     "permissions": [
       "activeTab",
       "storage",
-      "downloads"
+      "downloads",
+      "scripting"
     ],
     
     "browser_action": {
@@ -21,7 +22,7 @@
     "content_scripts": [
       {
         "matches": ["*://*.duolingo.com/*"],
-        "js": ["duoContent.js"]
+        "js": ["duoContent.js", "allContent.js"]
       }
     ] 
   }

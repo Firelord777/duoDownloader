@@ -31,6 +31,19 @@ function buttonWaitFinished(button){ //Enables again
   button.style.cursor = "default";
 }
 
+function showErrorBox(error){
+  browser.scripting.executeScript({
+    target: {
+      tabId: currentTab.id,
+    },
+    func: (errorMessage) => {
+      console.log(errorMessage);
+      alert("[DuoDownloader] \n The error: \n" + errorMessage + "\n has been thrown. \n If the problem persists contact: \n dev@mhuckle.de \n with the error message.");      
+    },
+    args: [error.message]
+  });
+}
+
 // Constructs the DownloadCompleted div then displays it.
 function showDownloadCompleted(){
   // Displays Courselanguage

@@ -22,9 +22,13 @@ buttonReloadRawJson.addEventListener("click", onClick_loadVocab);
 async function onClick_loadVocab(event){
   buttonWait(event.target);
   // Goes through a content script to circumvent CORS restrictions.
-  const tabs = await browser.tabs.sendMessage(currentTab.id, "getVocabList"); //T Add proper Error Handling.
+  try{
+    const tabs = await browser.tabs.sendMessage(currentTab.id, "getVocabList");
+    vocabDownloaded(tabs);
+  }catch(error){
+    showErrorBox(error);
+  }
   buttonWaitFinished(event.target);
-  vocabDownloaded(tabs);
 }
 
 function vocabDownloaded(response){

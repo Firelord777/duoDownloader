@@ -2,9 +2,7 @@
 A Firefox add-on to download a list of all the vocabulary learned on a certain language in Duolingo.
 
 # TO-DO
-- Develop options to parse the raw data to the following formats:
-  - Anki Cards 
-  - Possibility to load all words in the course from LocalStorage of Duolingo
+- Possibility to load all words in the course from LocalStorage of Duolingo
 - Create a nice pop-up interface for the user
 
 - Make it manifest 3.0 compatible
