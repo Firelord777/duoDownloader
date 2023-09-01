@@ -1,3 +1,21 @@
+//T Optimize with Set instead of Array for words[]
+function generateUniqueVocabList(){
+  const vocabList = rawJson.vocab_overview;
+  let uniqueVocabList = [];
+  let words = [];
+
+  for(vocabItem of vocabList){
+    // Check, whether a word is already in the uniqueVocabList
+    let word = vocabItem.normalized_string;
+    if (words.includes(word)) continue;
+    words.push(word);
+
+    uniqueVocabList.push(vocabItem);
+  }
+
+  return uniqueVocabList;
+}
+
 // Generate the filename out of the current date and the name of the course
 function generateFileName(){ 
   const date = new Date().toJSON().slice(0,10);
@@ -7,10 +25,8 @@ function generateFileName(){
   // Generates the txt and csv files. As they are both similar in structure.
   // Only put in one Charakter as rowSeparator
   //T Fix the problem mentioned in the above Comment
-function generateTableFile(collumnSeparator, rowSeparator){
+function generateTableFile(collumnSeparator, rowSeparator, vocabList){
   let selectedData = getSelectedData();
-  const vocabList = rawJson.vocab_overview;
-  
   let file = "";
 
   for(vocabItem of vocabList){
@@ -24,9 +40,8 @@ function generateTableFile(collumnSeparator, rowSeparator){
   return file;
 }
   
-function generateJsonFile(){
+function generateJsonFile(vocabList){
   let selectedData = getSelectedData();
-  const vocabList = rawJson.vocab_overview;
   let file = []; 
 
   let word;

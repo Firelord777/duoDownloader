@@ -37,7 +37,6 @@ function showErrorBox(error){
       tabId: currentTab.id,
     },
     func: (errorMessage) => {
-      console.log(errorMessage);
       alert("[DuoDownloader] \n The error: \n" + errorMessage + "\n has been thrown. \n If the problem persists contact: \n dev@mhuckle.de \n with the error message.");      
     },
     args: [error.message]
